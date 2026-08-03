@@ -9,3 +9,11 @@ document.getElementById("formulario").addEventListener("submit", function(event)
     console.log("Cidade:", cidade);
 
 });
+
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+let primeiroNumero = randomNumber(1, 50);
+
+let segundoNumero = randomNumber(1, primeiroNumero);

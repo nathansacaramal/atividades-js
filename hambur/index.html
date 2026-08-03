@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Burger</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+header{
+    background:#d62828;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    width:90%;
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+.progresso{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.barra{
+    flex:1;
+    height:12px;
+    background:#ccc;
+    border-radius:10px;
+}
+
+.ativa{
+    background:#2ecc71;
+}
+
+.etapa{
+    display:none;
+}
+
+.etapa.ativaTela{
+    display:block;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    border:3px solid transparent;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:scale(1.03);
+}
+
+.card img{
+    width:100%;
+    height:170px;
+    object-fit:cover;
+}
+
+.card h3{
+    padding:10px;
+}
+
+.card p{
+    padding:0 10px 10px;
+    font-size:14px;
+}
+
+.preco{
+    color:#d62828;
+    font-weight:bold;
+    padding:10px;
+}
+
+.selecionado{
+    border:3px solid #2ecc71;
+}
+
+.botoes{
+    margin-top:30px;
+    display:flex;
+    justify-content:space-between;
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    font-size:16px;
+}
+
+.voltar{
+    background:#777;
+}
+
+.proximo{
+    background:#2ecc71;
+}
+
+.finalizar{
+    background:#d62828;
+}
+
+textarea{
+    width:100%;
+    height:100px;
+    margin-top:20px;
+    padding:10px;
+    resize:none;
+}
+
+.check{
+    margin:10px 0;
+}
+
+#resumo img{
+    width:250px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+#resumo{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+.novo{
+    margin-top:20px;
+    background:#3498db;
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+<h1>🍔 Dev Burger</h1>
+</header>
+
+<div class="container">
+
+<div class="progresso">
+<div class="barra ativa"></div>
+<div class="barra"></div>
+<div class="barra"></div>
+<div class="barra"></div>
+</div>
+
+<!-- ETAPA 1 -->
+
+<div class="etapa ativaTela">
+
+<h2>Escolha seu Hambúrguer</h2>
+
+<div class="cards" id="hamburgueres"></div>
+
+<div class="botoes">
+<div></div>
+<button class="proximo" onclick="proxima()">Próximo</button>
+</div>
+
+</div>
+
+<!-- ETAPA 2 -->
+
+<div class="etapa">
+
+<h2>Escolha sua Bebida</h2>
+
+<div class="cards" id="bebidas"></div>
+
+<div class="botoes">
+<button class="voltar" onclick="voltar()">Voltar</button>
+<button class="proximo" onclick="proxima()">Próximo</button>
+</div>
+
+</div>
+
+<!-- ETAPA 3 -->
+
+<div class="etapa">
+
+<h2>Escolha os Adicionais</h2>
+
+<div id="adicionais"></div>
+
+<textarea id="obs" placeholder="Observações..."></textarea>
+
+<div class="botoes">
+<button class="voltar" onclick="voltar()">Voltar</button>
+<button class="finalizar" onclick="finalizar()">Finalizar</button>
+</div>
+
+</div>
+
+<!-- RESUMO -->
+
+<div class="etapa">
+
+<div id="resumo"></div>
+
+<button class="novo" onclick="location.reload()">Novo Pedido</button>
+
+</div>
+
+</div>
+
+<script>
+
+let etapa=0;
+
+const telas=document.querySelectorAll(".etapa");
+const barras=document.querySelectorAll(".barra");
+
+const hamburgueres=[
+{
+    nome:"X-Burger",
+    preco:28.90,
+    img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600",
+    desc:"Pão brioche, hambúrguer artesanal, cheddar, alface, tomate e molho especial."
+},
+{
+    nome:"X-Salada",
+    preco:30.90,
+    img:"https://images.unsplash.com/photo-1550547660-d9450f859349?w=600",
+    desc:"Pão, hambúrguer artesanal, presunto, queijo, alface, tomate e milho."
+},
+{
+    nome:"Bacon Burger",
+    preco:36.90,
+    img:"https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600",
+    desc:"Pão australiano, hambúrguer artesanal, cheddar, bacon e cebola caramelizada."
+},
+{
+    nome:"Chicken Burger",
+    preco:32.90,
+    img:"https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600",
+    desc:"Pão, frango empanado, queijo prato, alface e maionese."
+}
+];
+
+const bebidas=[
+    ["Coca-Cola",8],
+    ["Coca Zero",8],
+    ["Guaraná",7],
+    ["Fanta Laranja",7],
+    ["Água",4],
+    ["Suco Natural",10]
+];
+
+const adicionais=[
+    ["Bacon",6],
+    ["Cheddar",4],
+    ["Catupiry",5],
+    ["Onion Rings",9],
+    ["Batata Frita",12],
+    ["Milk Shake",15],
+    ["Brownie",10],
+    ["Sorvete",8]
+];
+
+let pedido={
+    hamburguer:null,
+    bebida:null,
+    extras:[]
+};
+
+// Mostra todos os hambúrgueres na tela
+function carregarHamburgueres() {
+
+    let conteudo = "";
+
+    for (let i = 0; i < hamburgueres.length; i++) {
+
+        conteudo += `
+        <div class="card" onclick="selecionaHamburguer(${i}, this)">
+            <img src="${hamburgueres[i].img}">
+            <h3>${hamburgueres[i].nome}</h3>
+            <p>${hamburgueres[i].desc}</p>
+            <div class="preco">
+                R$ ${hamburgueres[i].preco.toFixed(2).replace(".", ",")}
+            </div>
+        </div>
+        `;
+    }
+
+    document.getElementById("hamburgueres").innerHTML = conteudo;
+}
+
+function carregarBebidas(){
+
+    let html="";
+
+    bebidas.forEach((b,i)=>{
+
+        html+=`
+        <div class="card" onclick="selecionaBebida(${i},this)">
+        <h3>${b[0]}</h3>
+        <div class="preco">R$ ${b[1].toFixed(2).replace(".",",")}</div>
+        </div>
+        `;
+
+    });
+
+    document.getElementById("bebidas").innerHTML=html;
+
+}
+
+function carregarExtras() {
+
+    let html="";
+
+    adicionais.forEach((a,i)=>{
+
+        html+=`
+        <div class="check">
+        <label>
+        <input type="checkbox" value="${i}">
+        ${a[0]} - R$ ${a[1].toFixed(2).replace(".",",")}
+        </label>
+        </div>
+        `;
+
+    });
+
+    document.getElementById("adicionais").innerHTML=html;
+
+}
+
+function selecionaHamburguer(indice, cardSelecionado) {
+
+    // Guarda o hambúrguer escolhido
+    pedido.hamburguer = indice;
+
+    // Remove a seleção dos outros cards
+    let cards = document.querySelectorAll("#hamburgueres .card");
+
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].classList.remove("selecionado");
+    }
+
+    // Marca apenas o card clicado
+    cardSelecionado.classList.add("selecionado");
+}
+
+function selecionaBebida(i,el){
+
+    pedido.bebida=i;
+
+    document.querySelectorAll("#bebidas .card").forEach(c=>c.classList.remove("selecionado"));
+
+    el.classList.add("selecionado");
+
+}
+
+function mostrar() {
+
+    // Esconde todas as telas
+    for (let i = 0; i < telas.length; i++) {
+        telas[i].classList.remove("ativaTela");
+    }
+
+    // Mostra apenas a tela atual
+    telas[etapa].classList.add("ativaTela");
+
+    // Atualiza a barra de progresso
+    for (let i = 0; i < barras.length; i++) {
+
+        if (i <= etapa) {
+            barras[i].classList.add("ativa");
+        } else {
+            barras[i].classList.remove("ativa");
+        }
+
+    }
+}
+
+function proxima() {
+
+    if (etapa == 0) {
+
+        if (pedido.hamburguer == null) {
+            alert("Escolha um hambúrguer.");
+            return;
+        }
+
+    }
+
+    if (etapa == 1) {
+
+        if (pedido.bebida == null) {
+            alert("Escolha uma bebida.");
+            return;
+        }
+
+    }
+
+    etapa++;
+
+    mostrar();
+}
+
+function voltar(){
+
+    etapa--;
+
+    mostrar();
+
+}
+
+function finalizar() {
+
+    pedido.extras=[];
+
+    document.querySelectorAll("#adicionais input").forEach(c=>{
+
+    if(c.checked)
+    pedido.extras.push(parseInt(c.value));
+
+    });
+
+    let total=0;
+
+    let h=hamburgueres[pedido.hamburguer];
+    let b=bebidas[pedido.bebida];
+
+    total+=h.preco;
+    total+=b[1];
+
+    let lista="";
+
+    pedido.extras.forEach(i=>{
+
+        lista+=adicionais[i][0]+"<br>";
+
+        total+=adicionais[i][1];
+
+    });
+
+    if(lista=="")
+    lista="Nenhum";
+
+    document.getElementById("resumo").innerHTML=`
+
+    <h2>Resumo do Pedido</h2>
+
+    <img src="${h.img}">
+
+    <p><b>Hambúrguer:</b> ${h.nome}</p>
+
+    <p><b>Bebida:</b> ${b[0]}</p>
+
+    <p><b>Adicionais:</b><br>${lista}</p>
+
+    <p><b>Observações:</b><br>${document.getElementById("obs").value || "Nenhuma"}</p>
+
+    <h2>Total: R$ ${total.toFixed(2).replace(".",",")}</h2>
+
+    `;
+
+    etapa=3;
+
+    mostrar();
+
+}
+
+carregarHamburgueres();
+carregarBebidas();
+carregarExtras();
+
+</script>
+
+</body>
+</html>

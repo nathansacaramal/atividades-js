@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caça-Palavras</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    max-width:900px;
+    width:100%;
+}
+
+h1{
+    text-align:center;
+    color:#4f46e5;
+    margin-bottom:20px;
+}
+
+.game{
+    display:flex;
+    gap:25px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(12,45px);
+    gap:4px;
+    user-select:none;
+}
+
+.cell{
+    width:45px;
+    height:45px;
+    border-radius:10px;
+    background:#eef2ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-size:20px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.cell:hover{
+    background:#c7d2fe;
+}
+
+.selected{
+    background:#fbbf24 !important;
+    color:white;
+}
+
+.found{
+    background:#22c55e !important;
+    color:white;
+}
+
+.sidebar{
+    min-width:220px;
+}
+
+.sidebar h2{
+    color:#4f46e5;
+    margin-bottom:10px;
+}
+
+.words{
+    list-style:none;
+}
+
+.words li{
+    padding:8px;
+    margin-bottom:6px;
+    background:#f3f4f6;
+    border-radius:8px;
+    font-weight:600;
+}
+
+.words li.done{
+    background:#22c55e;
+    color:white;
+    text-decoration:line-through;
+}
+
+.status{
+    margin-top:15px;
+    font-weight:bold;
+    color:#4f46e5;
+}
+
+@media(max-width:700px){
+    .grid{
+        grid-template-columns:repeat(12,28px);
+    }
+
+    .cell{
+        width:28px;
+        height:28px;
+        font-size:14px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔎 Caça-Palavras</h1>
+
+    <div class="game">
+        <div id="grid" class="grid"></div>
+
+        <div class="sidebar">
+            <h2>Palavras</h2>
+            <ul class="words" id="wordList"></ul>
+
+            <div class="status" id="status">
+                Encontradas: 0
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const words = [
+    "JAVASCRIPT",
+    "HTML",
+    "CSS",
+    "WEB",
+    "CODIGO",
+    "SITE"
+];
+
+const size = 12;
+const grid = Array(size).fill().map(() => Array(size).fill(""));
+
+const placements = [
+    {word:"JAVASCRIPT", row:0, col:0, dr:0, dc:1},
+    {word:"HTML", row:2, col:2, dr:1, dc:0},
+    {word:"CSS", row:8, col:1, dr:0, dc:1},
+    {word:"WEB", row:10, col:3, dr:0, dc:1},
+    {word:"CODIGO", row:4, col:5, dr:1, dc:0},
+    {word:"SITE", row:6, col:7, dr:0, dc:1}
+];
+
+placements.forEach(p=>{
+    for(let i=0;i<p.word.length;i++){
+        grid[p.row+i*p.dr][p.col+i*p.dc] = p.word[i];
+    }
+});
+
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+        if(!grid[r][c]){
+            grid[r][c] =
+            alphabet[Math.floor(Math.random()*alphabet.length)];
+        }
+    }
+}
+
+const gridElement = document.getElementById("grid");
+
+let selecting = false;
+let selectedCells = [];
+let foundWords = new Set();
+
+function clearSelection(){
+    document.querySelectorAll(".selected")
+        .forEach(c=>c.classList.remove("selected"));
+    selectedCells = [];
+}
+
+for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.textContent = grid[r][c];
+
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+
+        cell.addEventListener("mousedown",()=>{
+            selecting = true;
+            clearSelection();
+            cell.classList.add("selected");
+            selectedCells.push(cell);
+        });
+
+        cell.addEventListener("mouseenter",()=>{
+            if(selecting && !selectedCells.includes(cell)){
+                cell.classList.add("selected");
+                selectedCells.push(cell);
+            }
+        });
+
+        gridElement.appendChild(cell);
+    }
+}
+
+document.addEventListener("mouseup",()=>{
+    if(!selecting) return;
+
+    selecting = false;
+
+    const text = selectedCells
+        .map(c=>c.textContent)
+        .join("");
+
+    const reverse = text.split("").reverse().join("");
+
+    words.forEach(word=>{
+        if(
+            (text === word || reverse === word) &&
+            !foundWords.has(word)
+        ){
+            foundWords.add(word);
+
+            selectedCells.forEach(c=>{
+                c.classList.remove("selected");
+                c.classList.add("found");
+            });
+
+            const item =
+                document.querySelector(`[data-word="${word}"]`);
+
+            if(item) item.classList.add("done");
+
+            document.getElementById("status")
+                .textContent =
+                `Encontradas: ${foundWords.size}/${words.length}`;
+
+            if(foundWords.size === words.length){
+                setTimeout(()=>{
+                    alert("🎉 Parabéns! Você encontrou todas as palavras!");
+                },200);
+            }
+
+            selectedCells = [];
+        }
+    });
+
+    if(selectedCells.length){
+        setTimeout(clearSelection,200);
+    }
+});
+
+const list = document.getElementById("wordList");
+
+words.forEach(word=>{
+    const li = document.createElement("li");
+    li.textContent = word;
+    li.dataset.word = word;
+    list.appendChild(li);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Exemplo Local Storage</title>
+
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            width: 400px;
+            margin: 30px auto;
+        }
+
+        h2{
+            text-align: center;
+        }
+
+        input{
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        #resultado{
+            margin-top:20px;
+            padding:15px;
+            border:1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Cadastro Simples</h2>
+
+    <input type="text" id="nome" placeholder="Digite seu nome">
+
+    <input type="number" id="idade" placeholder="Digite sua idade">
+
+    <button onclick="salvar()">Salvar</button>
+
+    <button onclick="mostrar()">Mostrar Dados</button>
+
+    <button onclick="limpar()">Limpar dados</button>
+
+    <div id="resultado"></div>
+
+<script>
+
+function salvar(){
+
+    let nome = document.getElementById("nome").value;
+    let idade = document.getElementById("idade").value;
+
+    let pessoa = {
+        nome: nome,
+        idade: idade
+    };
+
+    // Converte o objeto em texto (JSON)
+    let pessoaJSON = JSON.stringify(pessoa);
+
+    // Salva o texto no Local Storage, Onde o "pessoa" se torna uma chave contendos valores que vamos chamar posteriormente no getitem
+    localStorage.setItem("pessoa", pessoaJSON);
+
+    // Limpa os campos do formulário
+    document.getElementById("nome").value = "";
+    document.getElementById("idade").value = "";
+}
+
+function mostrar(){
+
+    // Busca os dados armazenados no Local Storage, em cima da chave que criamos no setitem logo acima.
+    let dados = localStorage.getItem("pessoa");
+
+    // Converte o texto novamente para um objeto JavaScript
+    let pessoa = JSON.parse(dados);
+
+    // Exibe as informações na página
+    document.getElementById("resultado").innerHTML = `
+        <h3>Dados Salvos</h3>
+        <p><strong>Nome:</strong> ${pessoa.nome}</p>
+        <p><strong>Idade:</strong> ${pessoa.idade} anos</p>
+    `;
+}
+
+function limpar () {
+    localStorage.clear();
+}
+
+</script>
+
+</body>
+</html>
