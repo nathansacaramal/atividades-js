@@ -3,7 +3,6 @@ const conexao = require("./db");
 const path = require("path");
 
 const app = express();
-
 // Permite acessar arquivos da pasta public
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -22,5 +21,5 @@ app.get("/produtos", (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log("Servidor rodando em http://localhost:3000/listar.html");
+    console.log("Servidor rodando em http://localhost:3000/home.html");
 });
