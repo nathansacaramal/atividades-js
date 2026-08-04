@@ -18,3 +18,5 @@ Após isso criar dentro da pasta um arquivo chamado db.js e colocar as determina
 Depois criar o server.js e também criar as determinadas configurações.
 
 Após isso, dar o node server.js para executar o node.
+
+OBS: pesquisar sobre o nodemoon(npm install --save-dev nodemon).
