@@ -1,4 +1,4 @@
-// Selecionando os elementos do DOM
+// 1. Selecionando os elementos do DOM
 const form = document.getElementById('signup-form');
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('email');
@@ -6,26 +6,40 @@ const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirm-password');
 const submitBtn = document.getElementById('submit-btn');
 
-// Regras de Validação com Expressões Regulares (Regex)
+
+// 2. Regras de Validação (Regex)
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-// Função utilitária para aplicar status visual no campo
-function setFieldStatus(input, isValid, errorMessage = '') {
-  const errorSpan = input.parentElement.querySelector('.error-message');
 
-  if (isValid == true) {
-    input.classList.remove('invalid');
-    input.classList.add('valid');
-    errorSpan.textContent = '';
-  } else {
-    input.classList.remove('valid');
-    input.classList.add('invalid');
-    errorSpan.textContent = errorMessage;
-  }
+// 3. Adicionando os ouvintes de evento (O que dispara a ação primeiro)
+nameInput.addEventListener('input', validateForm);
+emailInput.addEventListener('input', validateForm);
+passwordInput.addEventListener('input', () => {
+  validateForm();
+  if (confirmPasswordInput.value) validateConfirmPassword(); 
+});
+confirmPasswordInput.addEventListener('input', validateForm);
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  alert('Formulário enviado com sucesso!');
+});
+
+
+// 4. Função principal de validação do formulário (Chamada pelos eventos)
+function validateForm() {
+  const isNameValid = validateName();
+  const isEmailValid = validateEmail();
+  const isPasswordValid = validatePassword();
+  const isConfirmPasswordValid = validateConfirmPassword();
+
+  const isFormValid = isNameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid;
+  submitBtn.disabled = !isFormValid;
 }
 
-// Funções de validação individuais
+
+// 5. Funções de validação individuais
 function validateName() {
   const isValid = nameInput.value.trim().length >= 8;
   setFieldStatus(nameInput, isValid, 'O nome deve ter pelo menos 8 caracteres.');
@@ -61,30 +75,18 @@ function validateConfirmPassword() {
   return isValid;
 }
 
-// Função para checar o formulário todo e liberar/bloquear o botão
-function validateForm() {
-  const isNameValid = validateName();
-  const isEmailValid = validateEmail();
-  const isPasswordValid = validatePassword();
-  const isConfirmPasswordValid = validateConfirmPassword();
 
-  // O botão só ativa se TODOS os retornos forem true
-  const isFormValid = isNameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid;
-  submitBtn.disabled = !isFormValid;
+// 6. Função utilitária de suporte visual (A mais "baixa" camada)
+function setFieldStatus(input, isValid, errorMessage = '') {
+  const errorSpan = input.parentElement.querySelector('.error-message');
+
+  if (isValid === true) {
+    input.classList.remove('invalid');
+    input.classList.add('valid');
+    errorSpan.textContent = '';
+  } else {
+    input.classList.remove('valid');
+    input.classList.add('invalid');
+    errorSpan.textContent = errorMessage;
+  }
 }
-
-// Adicionando os ouvintes de evento ('input' escuta cada tecla/alteração)
-nameInput.addEventListener('input', validateForm);
-emailInput.addEventListener('input', validateForm);
-passwordInput.addEventListener('input', () => {
-  validateForm();
-  // Valida a confirmação novamente caso a senha principal mude
-  if (confirmPasswordInput.value) validateConfirmPassword(); 
-});
-confirmPasswordInput.addEventListener('input', validateForm);
-
-// Evento ao enviar o formulário
-form.addEventListener('submit', (event) => {
-  event.preventDefault(); // Impede o recarregamento da página
-  alert('Formulário enviado com sucesso!');
-});
