@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Produtos</title>
 
+    
     <style>
         body{
             font-family: Arial, Helvetica, sans-serif;
@@ -63,14 +64,22 @@
 
 <script>
 
+// Faz uma requisição HTTP assíncrona para a rota "/produtos" criada no servidor Node.js/Express
 fetch("/produtos")
+
+// Converte a resposta recebida do servidor para o formato JSON (transformando os dados em um array de objetos)
 .then(res => res.json())
+
+// Executa este bloco após a conversão, recebendo o array de produtos vindo do banco de dados
 .then(produtos => {
 
+    // Seleciona o elemento HTML <tbody> pelo seu ID ("tabelaProdutos") onde as linhas serão inseridas
     const tabela = document.getElementById("tabelaProdutos");
 
+    // Percorre cada objeto (produto) dentro da lista de produtos retornada
     produtos.forEach(produto => {
 
+        // Adiciona dinamicamente uma nova linha (tr) e colunas (td) preenchidas com os dados do produto na tabela
         tabela.innerHTML += `
             <tr>
                 <td>${produto.id_produto}</td>
@@ -84,8 +93,13 @@ fetch("/produtos")
     });
 
 })
+
+// Captura e lida com qualquer erro que ocorra durante o processo de requisição ou conversão
 .catch(erro => {
+    // Exibe o erro detalhado no console do navegador para fins de depuração
     console.log(erro);
+    
+    // Mostra um alerta amigável na tela informando o usuário sobre a falha
     alert("Erro ao carregar os produtos.");
 });
 
