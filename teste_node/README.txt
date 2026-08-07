@@ -20,3 +20,8 @@ Depois criar o server.js e também criar as determinadas configurações.
 Após isso, dar o node server.js para executar o node.
 
 OBS: pesquisar sobre o nodemoon(npm install --save-dev nodemon).
+
+Dentro do db.js você cria a conexão com o banco de dados.
+
+Dentro do server.js você cria as rotas para posteriormente chamar ela via fetch
+para imprimir os dados
