@@ -2,7 +2,7 @@
 const express = require("express");
 
 // Importa a biblioteca responsável por gerar e comparar o hash das senhas
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt"); //npm install bcrypt
 
 // Importa a conexão com o banco de dados MySQL
 const conexao = require("./db");
