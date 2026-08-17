@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Produtos</title>
+
+</head>
+
+<body>
+
+    <h1>Lista de Produtos</h1>
+
+    <div id="lista"></div>
+
+
+    <script>
+
+        // Elemento onde os produtos serão exibidos
+        const lista = document.getElementById("lista");
+
+
+        // ======================================
+        // BUSCAR PRODUTOS
+        // ======================================
+
+        async function carregarProdutos() {
+
+            const resposta = await fetch("/produtos");
+
+            const produtos = await resposta.json();
+
+
+            // Limpa a lista
+            lista.innerHTML = "";
+
+
+            // Percorre os produtos
+            produtos.forEach(produto => {
+
+                const div = document.createElement("div");
+
+
+                div.innerHTML = `
+                    <p>
+                        ${produto.id} -
+                        ${produto.nome} -
+                        R$ ${produto.preco}
+
+                        <button onclick="excluirProduto(${produto.id})">
+                            Excluir
+                        </button>
+                    </p>
+                `;
+
+
+                lista.appendChild(div);
+
+            });
+
+        }
+
+
+        // ======================================
+        // EXCLUIR PRODUTO
+        // ======================================
+
+        async function excluirProduto(id) {
+
+            const resposta = await fetch(
+                `/produtos/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+            const dados = await resposta.json();
+
+
+            alert(dados.mensagem);
+
+
+            // Atualiza a lista
+            carregarProdutos();
+
+        }
+
+
+        // Carrega os produtos ao abrir a página
+        carregarProdutos();
+
+    </script>
+
+</body>
+
+</html>
