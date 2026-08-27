@@ -13,7 +13,7 @@ conexao.connect((erro) => {
         return;
     }
 
-    console.log("Conectado ao MySQL!");
+    console.log("Conectado ao MySQL meu ovo!");
 });
 
 module.exports = conexao;
