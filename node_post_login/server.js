@@ -106,7 +106,7 @@ app.post("/login", (req, res) => {
             // Se não encontrar nenhum usuário
             if (resultado.length == 0) {
 
-                return res.send("Usuário não encontrado.");
+                return res.send("IGOR PASSOU AQUI.");
 
             }
 
