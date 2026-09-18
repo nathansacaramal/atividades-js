@@ -8,7 +8,7 @@ npm install mysql2
 npm install bcrypt
 npm install nodemon.
 
-------------------------------------------
+----------------------------------------------------------------------
 
 Quando você cria um repositorio novo, você da uma sequencia de comandos diferente de quando já existe conectado ao seu vscode.
 
@@ -19,6 +19,7 @@ git branch -M main
 git commit -m "first commit"
 git push -u origin main
 
+---------------------------------------------------------------------
 Agora quando já tá conectado e não precisa fazer os comandos acima, a sequencia é outra.
 
 git add .
