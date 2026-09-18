@@ -19,6 +19,9 @@ git branch -M main
 git commit -m "first commit"
 git push -u origin main
 
-agora quando já tá conectado e não precisa fazer os comandos acima, a sequencia é outra.
+Agora quando já tá conectado e não precisa fazer os comandos acima, a sequencia é outra.
 
+git add .
+git commit -m "aqui você coloca o texto acerca do que você fez"
+git push
 
