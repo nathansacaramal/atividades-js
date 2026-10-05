@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Cadastrar Animal</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="caixa">
+
+        <a class="voltar" href="home.html">&larr; Voltar</a>
+
+        <h2>Cadastrar Animal</h2>
+
+        <form id="formAnimal">
+
+            <input type="text" name="nome" placeholder="Nome do animal" required>
+
+            <input type="text" name="especie" placeholder="Espécie" required>
+
+            <input type="number" name="idade" placeholder="Idade" min="0" required>
+
+            <input type="text" name="nome_dono" placeholder="Nome do dono" required>
+
+            <button type="submit">Cadastrar</button>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        // Referência ao formulário
+        const formAnimal = document.getElementById("formAnimal");
+
+        // Intercepta o envio do formulário para poder usar fetch()
+        formAnimal.addEventListener("submit", async (evento) => {
+
+            evento.preventDefault();
+
+            // Monta o objeto com os dados digitados
+            const dados = {
+                nome: formAnimal.nome.value,
+                especie: formAnimal.especie.value,
+                idade: formAnimal.idade.value,
+                nome_dono: formAnimal.nome_dono.value
+            };
+
+            // Envia os dados para o servidor via POST
+            const resposta = await fetch("/animais", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            });
+
+            const resultado = await resposta.json();
+
+            alert(resultado.mensagem);
+
+            // Limpa o formulário após o cadastro
+            formAnimal.reset();
+
+        });
+
+    </script>
+
+</body>
+
+</html>

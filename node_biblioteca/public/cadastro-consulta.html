@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Cadastrar Consulta</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="caixa">
+
+        <a class="voltar" href="home.html">&larr; Voltar</a>
+
+        <h2>Cadastrar Consulta</h2>
+
+        <form id="formConsulta">
+
+            <select name="animal_id" id="selectAnimal" required>
+                <option value="">Selecione o animal</option>
+            </select>
+
+            <select name="veterinario_id" id="selectVeterinario" required>
+                <option value="">Selecione o veterinário</option>
+            </select>
+
+            <input type="date" name="data" required>
+
+            <input type="time" name="horario" required>
+
+            <button type="submit">Cadastrar</button>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        const formConsulta = document.getElementById("formConsulta");
+        const selectAnimal = document.getElementById("selectAnimal");
+        const selectVeterinario = document.getElementById("selectVeterinario");
+
+
+        // ======================================
+        // PREENCHE OS SELECTS COM OS DADOS DO BANCO
+        // ======================================
+
+        async function carregarAnimais() {
+
+            const resposta = await fetch("/animais");
+            const animais = await resposta.json();
+
+            animais.forEach(animal => {
+
+                const opcao = document.createElement("option");
+                opcao.value = animal.id;
+                opcao.textContent = `${animal.nome} (${animal.especie})`;
+
+                selectAnimal.appendChild(opcao);
+
+            });
+
+        }
+
+        async function carregarVeterinarios() {
+
+            const resposta = await fetch("/veterinarios");
+            const veterinarios = await resposta.json();
+
+            veterinarios.forEach(veterinario => {
+
+                const opcao = document.createElement("option");
+                opcao.value = veterinario.id;
+                opcao.textContent = `${veterinario.nome} (${veterinario.especialidade})`;
+
+                selectVeterinario.appendChild(opcao);
+
+            });
+
+        }
+
+        carregarAnimais();
+        carregarVeterinarios();
+
+
+        // ======================================
+        // ENVIA O FORMULÁRIO PARA O SERVIDOR
+        // ======================================
+
+        formConsulta.addEventListener("submit", async (evento) => {
+
+            evento.preventDefault();
+
+            const dados = {
+                animal_id: formConsulta.animal_id.value,
+                veterinario_id: formConsulta.veterinario_id.value,
+                data: formConsulta.data.value,
+                horario: formConsulta.horario.value
+            };
+
+            const resposta = await fetch("/consultas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            });
+
+            const resultado = await resposta.json();
+
+            alert(resultado.mensagem);
+
+            formConsulta.reset();
+
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lista de Veterinários</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="caixa-grande">
+
+        <a class="voltar" href="home.html">&larr; Voltar</a>
+
+        <h1>Lista de Veterinários</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Especialidade</th>
+                    <th>Telefone</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaVeterinarios">
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <script>
+
+        const tabela = document.getElementById("tabelaVeterinarios");
+
+
+        // ======================================
+        // BUSCAR VETERINÁRIOS
+        // ======================================
+
+        async function carregarVeterinarios() {
+
+            const resposta = await fetch("/veterinarios");
+            const veterinarios = await resposta.json();
+
+            tabela.innerHTML = "";
+
+            veterinarios.forEach(veterinario => {
+
+                tabela.innerHTML += `
+                    <tr>
+                        <td>${veterinario.id}</td>
+                        <td>${veterinario.nome}</td>
+                        <td>${veterinario.especialidade}</td>
+                        <td>${veterinario.telefone}</td>
+                        <td>
+                            <button class="btn-excluir" onclick="excluirVeterinario(${veterinario.id})">
+                                Excluir
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+            });
+
+        }
+
+
+        // ======================================
+        // EXCLUIR VETERINÁRIO
+        // ======================================
+
+        async function excluirVeterinario(id) {
+
+            const confirmou = confirm("Deseja realmente excluir este veterinário?");
+
+            if (!confirmou) {
+                return;
+            }
+
+            const resposta = await fetch(`/veterinarios/${id}`, {
+                method: "DELETE"
+            });
+
+            const dados = await resposta.json();
+
+            alert(dados.mensagem);
+
+            carregarVeterinarios();
+
+        }
+
+
+        carregarVeterinarios();
+
+    </script>
+
+</body>
+
+</html>

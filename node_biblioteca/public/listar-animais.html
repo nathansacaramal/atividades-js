@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lista de Animais</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="caixa-grande">
+
+        <a class="voltar" href="home.html">&larr; Voltar</a>
+
+        <h1>Lista de Animais</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Espécie</th>
+                    <th>Idade</th>
+                    <th>Dono</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaAnimais">
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <script>
+
+        const tabela = document.getElementById("tabelaAnimais");
+
+
+        // ======================================
+        // BUSCAR ANIMAIS
+        // ======================================
+
+        async function carregarAnimais() {
+
+            const resposta = await fetch("/animais");
+            const animais = await resposta.json();
+
+            // Limpa a tabela
+            tabela.innerHTML = "";
+
+            animais.forEach(animal => {
+
+                tabela.innerHTML += `
+                    <tr>
+                        <td>${animal.id}</td>
+                        <td>${animal.nome}</td>
+                        <td>${animal.especie}</td>
+                        <td>${animal.idade}</td>
+                        <td>${animal.nome_dono}</td>
+                        <td>
+                            <button class="btn-excluir" onclick="excluirAnimal(${animal.id})">
+                                Excluir
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+            });
+
+        }
+
+
+        // ======================================
+        // EXCLUIR ANIMAL
+        // ======================================
+
+        async function excluirAnimal(id) {
+
+            // Pede confirmação antes de excluir
+            const confirmou = confirm("Deseja realmente excluir este animal?");
+
+            if (!confirmou) {
+                return;
+            }
+
+            const resposta = await fetch(`/animais/${id}`, {
+                method: "DELETE"
+            });
+
+            const dados = await resposta.json();
+
+            alert(dados.mensagem);
+
+            // Atualiza a tabela automaticamente
+            carregarAnimais();
+
+        }
+
+
+        // Carrega os animais ao abrir a página
+        carregarAnimais();
+
+    </script>
+
+</body>
+
+</html>

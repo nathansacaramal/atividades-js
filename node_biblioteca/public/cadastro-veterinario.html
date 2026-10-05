@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Cadastrar Veterinário</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="caixa">
+
+        <a class="voltar" href="home.html">&larr; Voltar</a>
+
+        <h2>Cadastrar Veterinário</h2>
+
+        <form id="formVeterinario">
+
+            <input type="text" name="nome" placeholder="Nome do veterinário" required>
+
+            <input type="text" name="especialidade" placeholder="Especialidade" required>
+
+            <input type="text" name="telefone" placeholder="Telefone" required>
+
+            <button type="submit">Cadastrar</button>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        const formVeterinario = document.getElementById("formVeterinario");
+
+        formVeterinario.addEventListener("submit", async (evento) => {
+
+            evento.preventDefault();
+
+            const dados = {
+                nome: formVeterinario.nome.value,
+                especialidade: formVeterinario.especialidade.value,
+                telefone: formVeterinario.telefone.value
+            };
+
+            const resposta = await fetch("/veterinarios", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            });
+
+            const resultado = await resposta.json();
+
+            alert(resultado.mensagem);
+
+            formVeterinario.reset();
+
+        });
+
+    </script>
+
+</body>
+
+</html>

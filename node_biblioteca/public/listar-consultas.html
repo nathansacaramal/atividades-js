@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lista de Consultas</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="caixa-grande">
+
+        <a class="voltar" href="home.html">&larr; Voltar</a>
+
+        <h1>Lista de Consultas</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Animal</th>
+                    <th>Veterinário</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaConsultas">
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <script>
+
+        const tabela = document.getElementById("tabelaConsultas");
+
+
+        // ======================================
+        // BUSCAR CONSULTAS
+        // ======================================
+
+        async function carregarConsultas() {
+
+            const resposta = await fetch("/consultas");
+            const consultas = await resposta.json();
+
+            tabela.innerHTML = "";
+
+            consultas.forEach(consulta => {
+
+                tabela.innerHTML += `
+                    <tr>
+                        <td>${consulta.id}</td>
+                        <td>${consulta.animal}</td>
+                        <td>${consulta.veterinario}</td>
+                        <td>${consulta.data}</td>
+                        <td>${consulta.horario}</td>
+                        <td>
+                            <button class="btn-excluir" onclick="excluirConsulta(${consulta.id})">
+                                Excluir
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+            });
+
+        }
+
+
+        // ======================================
+        // EXCLUIR CONSULTA
+        // ======================================
+
+        async function excluirConsulta(id) {
+
+            const confirmou = confirm("Deseja realmente excluir esta consulta?");
+
+            if (!confirmou) {
+                return;
+            }
+
+            const resposta = await fetch(`/consultas/${id}`, {
+                method: "DELETE"
+            });
+
+            const dados = await resposta.json();
+
+            alert(dados.mensagem);
+
+            carregarConsultas();
+
+        }
+
+
+        carregarConsultas();
+
+    </script>
+
+</body>
+
+</html>
