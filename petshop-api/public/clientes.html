@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Cadastro de Tutores</title>
+
+    <link rel="stylesheet" href="css/estilo.css">
+
+</head>
+
+<body>
+
+    <div class="caixa-grande">
+
+        <a class="voltar" href="index.html">&larr; Voltar ao menu</a>
+
+        <h1>Cadastro de Tutores</h1>
+
+        <!-- novalidate: deixa a API validar os campos obrigatórios -->
+        <form id="formCliente" novalidate>
+
+            <input type="text" name="nome" placeholder="Nome *">
+
+            <input type="text" name="cpf" placeholder="CPF *">
+
+            <input type="text" name="telefone" placeholder="Telefone">
+
+            <input type="text" name="endereco" placeholder="Endereço">
+
+            <button type="submit">Cadastrar</button>
+
+        </form>
+
+        <p id="mensagem" class="mensagem"></p>
+
+        <h2>Tutores cadastrados</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Endereço</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaClientes">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="js/clientes.js"></script>
+
+</body>
+
+</html>

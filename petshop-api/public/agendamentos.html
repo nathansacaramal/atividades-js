@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Agendamentos</title>
+
+    <link rel="stylesheet" href="css/estilo.css">
+
+</head>
+
+<body>
+
+    <div class="caixa-grande">
+
+        <a class="voltar" href="index.html">&larr; Voltar ao menu</a>
+
+        <h1>Agendamentos</h1>
+
+        <form id="formAgendamento" novalidate>
+
+            <label for="animal_id">Animal *</label>
+            <select id="animal_id" name="animal_id">
+                <option value="">Selecione o animal</option>
+            </select>
+
+            <label for="servico_id">Serviço *</label>
+            <select id="servico_id" name="servico_id">
+                <option value="">Selecione o serviço</option>
+            </select>
+
+            <label for="data_hora">Data e hora *</label>
+            <input type="datetime-local" id="data_hora" name="data_hora">
+
+            <div class="linha-checkbox">
+                <input type="checkbox" id="leva_e_traz" name="leva_e_traz">
+                <label for="leva_e_traz" style="margin:0">Leva e Traz</label>
+            </div>
+
+            <button type="submit">Agendar</button>
+
+        </form>
+
+        <p id="mensagem" class="mensagem"></p>
+
+        <h2>Agendamentos cadastrados</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Animal</th>
+                    <th>Tutor</th>
+                    <th>Serviço</th>
+                    <th>Status</th>
+                    <th>Leva e Traz</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaAgendamentos">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="js/agendamentos.js"></script>
+
+</body>
+
+</html>

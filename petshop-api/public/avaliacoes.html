@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Avaliação Veterinária</title>
+
+    <link rel="stylesheet" href="css/estilo.css">
+
+</head>
+
+<body>
+
+    <div class="caixa-grande">
+
+        <a class="voltar" href="index.html">&larr; Voltar ao menu</a>
+
+        <h1>Avaliação Veterinária</h1>
+
+        <form id="formAvaliacao" novalidate>
+
+            <label for="animal_id">Animal *</label>
+            <select id="animal_id" name="animal_id">
+                <option value="">Selecione o animal</option>
+            </select>
+
+            <label for="veterinario_id">Veterinário *</label>
+            <select id="veterinario_id" name="veterinario_id">
+                <option value="">Selecione o veterinário</option>
+            </select>
+
+            <label for="data_avaliacao">Data *</label>
+            <input type="date" id="data_avaliacao" name="data_avaliacao">
+
+            <input type="number" name="peso" placeholder="Peso (kg)" step="0.01" min="0">
+
+            <input type="number" name="temperatura" placeholder="Temperatura (°C)" step="0.1">
+
+            <textarea name="diagnostico" rows="3" placeholder="Diagnóstico *"></textarea>
+
+            <textarea name="recomendacoes" rows="3" placeholder="Recomendações"></textarea>
+
+            <button type="submit">Registrar avaliação</button>
+
+        </form>
+
+        <p id="mensagem" class="mensagem"></p>
+
+        <h2>Histórico de avaliações</h2>
+
+        <p id="infoHistorico">Escolha um animal para ver o histórico.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Veterinário</th>
+                    <th>Peso (kg)</th>
+                    <th>Temp. (°C)</th>
+                    <th>Diagnóstico</th>
+                    <th>Recomendações</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaAvaliacoes">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="js/avaliacoes.js"></script>
+
+</body>
+
+</html>

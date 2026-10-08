@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Cadastro de Animais</title>
+
+    <link rel="stylesheet" href="css/estilo.css">
+
+</head>
+
+<body>
+
+    <div class="caixa-grande">
+
+        <a class="voltar" href="index.html">&larr; Voltar ao menu</a>
+
+        <h1>Cadastro de Animais</h1>
+
+        <!-- Aparece quando ainda não existe nenhum tutor -->
+        <p id="semTutor" class="aviso" style="display:none">
+            Nenhum tutor cadastrado. <a href="clientes.html">Cadastre um tutor primeiro.</a>
+        </p>
+
+        <form id="formAnimal" novalidate>
+
+            <label for="cliente_id">Tutor *</label>
+            <select id="cliente_id" name="cliente_id">
+                <option value="">Selecione o tutor</option>
+            </select>
+
+            <input type="text" name="nome" placeholder="Nome do animal *">
+
+            <input type="text" name="especie" placeholder="Espécie (ex.: Cachorro)">
+
+            <input type="text" name="raca" placeholder="Raça">
+
+            <label for="data_nascimento">Data de nascimento</label>
+            <input type="date" id="data_nascimento" name="data_nascimento">
+
+            <button type="submit">Cadastrar</button>
+
+        </form>
+
+        <p id="mensagem" class="mensagem"></p>
+
+        <h2>Animais cadastrados</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Espécie</th>
+                    <th>Raça</th>
+                    <th>Nascimento</th>
+                    <th>Tutor</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaAnimais">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="js/animais.js"></script>
+
+</body>
+
+</html>
