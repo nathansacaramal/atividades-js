@@ -1,0 +1,22 @@
+# =======================================================
+# SEGREDOS DO SISTEMA (este arquivo NÃO vai para o GitHub)
+# Valores com # precisam ficar entre aspas, senão o resto vira comentário
+# =======================================================
+
+# Conexão com o MySQL usando o usuário da aplicação (nunca o root)
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=mercado_app
+DB_PASSWORD="Mercado#App2026"
+DB_NAME=mercado
+
+# Segredo usado para assinar o cookie da sessão
+SESSION_SECRET="troque#este#segredo#por#um#texto#grande#e#aleatorio"
+
+# Chave do AES_ENCRYPT / AES_DECRYPT do CPF (a mesma do @chave_cpf no banco.sql)
+CPF_KEY="chave#cpf#mercado#2026"
+
+PORTA=3000
+
+
+#será necessário renomear o arquivo .env.copy para .env
