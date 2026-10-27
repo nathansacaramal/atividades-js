@@ -3,6 +3,9 @@
 Mercado online com cadastro, login, compra, pagamento e perfil do cliente, seguindo a LGPD
 (senha com bcrypt, CPF cifrado com AES, consentimentos, auditoria e exclusão/anonimização de dados).
 
+> Quer entender para que serve cada pasta (`middlewares`, `routes`, `server.js`...) e como elas
+> conversam? Leia o [README-ESTRUTURA.md](README-ESTRUTURA.md).
+
 ---
 
 ## 1. O que precisa estar instalado
