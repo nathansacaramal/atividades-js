@@ -52,3 +52,28 @@ app.use(["/comprar.html", "/pagamento.html", "/perfil.html"], exigirLogin);
 app.use(express.static("public"));
 
 
+// =======================================================
+// ROTAS
+// =======================================================
+
+// Cadastro, login e logout (abertas)
+app.use("/", rotasAuth);
+
+// Daqui para baixo, só para quem está logado
+app.use("/produtos", exigirLogin, rotasProdutos);
+app.use("/pedidos", exigirLogin, rotasPedidos);
+app.use("/perfil", exigirLogin, rotasPerfil);
+
+// Trata os erros de todas as rotas (sempre por último)
+app.use(tratarErros);
+
+
+// =======================================================
+// INICIALIZAÇÃO DO SERVIDOR
+// =======================================================
+
+app.listen(PORTA, () => {
+
+    console.log(`Servidor rodando em http://localhost:${PORTA}`);
+
+});
