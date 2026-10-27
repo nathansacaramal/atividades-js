@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-
+require('dotenv').config();
 // Pool de conexões: cada requisição pega uma conexão livre e devolve no final.
 // Os dados vêm do .env e o usuário é o mercado_app (nunca o root).
 const conexao = mysql.createPool({
