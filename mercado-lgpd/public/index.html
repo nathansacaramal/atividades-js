@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mercado Online - Login</title>
+
+    <link rel="stylesheet" href="css/estilo.css">
+
+</head>
+
+<body>
+
+    <div class="caixa">
+
+        <h1>Mercado Online</h1>
+        <p>Entre para fazer suas compras.</p>
+
+        <form id="formLogin">
+
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" autocomplete="username" required>
+
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+
+            <button type="submit">Entrar</button>
+
+        </form>
+
+        <p id="mensagem" class="mensagem"></p>
+
+        <p>Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+        <p class="dica"><a href="privacidade.html">Política de Privacidade</a> · <a href="termos.html">Termos de Uso</a></p>
+
+    </div>
+
+    <script src="js/comum.js"></script>
+    <script src="js/login.js"></script>
+
+</body>
+
+</html>

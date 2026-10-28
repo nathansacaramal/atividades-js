@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mercado Online - Cadastro</title>
+
+    <link rel="stylesheet" href="css/estilo.css">
+
+</head>
+
+<body>
+
+    <div class="caixa">
+
+        <a href="index.html">&larr; Voltar ao login</a>
+
+        <h1>Criar conta</h1>
+
+        <form id="formCadastro">
+
+            <!-- Obrigatórios -->
+            <label for="nome">Nome *</label>
+            <input type="text" id="nome" name="nome" maxlength="100" autocomplete="name" required>
+
+            <label for="email">E-mail *</label>
+            <input type="email" id="email" name="email" maxlength="150" autocomplete="email" required>
+
+            <label for="senha">Senha *</label>
+            <input type="password" id="senha" name="senha" minlength="8" maxlength="72" autocomplete="new-password" required>
+            <span class="dica">Mínimo de 8 caracteres, com letras e números.</span>
+
+            <label for="data_nascimento">Data de nascimento *</label>
+            <input type="date" id="data_nascimento" name="data_nascimento" required>
+            <span class="dica">Somente maiores de 18 anos.</span>
+
+            <!-- Opcionais -->
+            <label for="telefone">Celular (opcional)</label>
+            <input type="tel" id="telefone" name="telefone" placeholder="(11) 98765-4321" autocomplete="tel">
+
+            <label for="cpf">CPF (opcional)</label>
+            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+            <span class="dica">Usado somente para emitir a nota fiscal. Fica guardado criptografado.</span>
+
+            <!-- Aceite obrigatório -->
+            <label class="linha-checkbox">
+                <input type="checkbox" id="aceite_termos" name="aceite_termos" required>
+                <span>Li e aceito os <a href="termos.html" target="_blank">Termos de Uso</a> e a
+                    <a href="privacidade.html" target="_blank">Política de Privacidade</a>. *</span>
+            </label>
+
+            <!-- Consentimentos opcionais (desmarcados) -->
+            <label class="linha-checkbox">
+                <input type="checkbox" id="ofertas_email" name="ofertas_email">
+                <span>Quero receber ofertas por e-mail (opcional).</span>
+            </label>
+
+            <label class="linha-checkbox">
+                <input type="checkbox" id="ofertas_whatsapp" name="ofertas_whatsapp">
+                <span>Quero receber ofertas por WhatsApp (opcional).</span>
+            </label>
+
+            <button type="submit">Cadastrar</button>
+
+        </form>
+
+        <p id="mensagem" class="mensagem"></p>
+
+    </div>
+
+    <script src="js/comum.js"></script>
+    <script src="js/cadastro.js"></script>
+
+</body>
+
+</html>
